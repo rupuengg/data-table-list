@@ -18,7 +18,7 @@
 			<h1>Data Table List</h1>
 			<br/>
 			<br/>
-			<table-listing width="500" cols="mainCtrl.columns" req-type="get" req-url="/data-table-list/data-list.json" show-row-number="true"></table-listing>
+			<table-listing width="500" cols="mainCtrl.columns" req-type="get" req-url="/data-table-list/data-list.json" show-row-number="true" is-edit-button="true" is-copy-button="true" is-delete-button="true"></table-listing>
 		</div>
 	</body>
 </html>

@@ -9,11 +9,11 @@
 			var self = this;
 
 			self.columns = {
-				'id' : 'Id', 
 				'first_name' : 'Firstname', 
 				'last_name' : 'Lastname', 
 				'email' : 'Email', 
-				'gender': 'Gender'
+				'gender': 'Gender',
+				'ip_address': 'IP Address'
 			};
 
 			$scope.mainlist = [{
