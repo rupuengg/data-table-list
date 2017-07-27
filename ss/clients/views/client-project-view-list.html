@@ -1,0 +1,52 @@
+<div class="com-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-condensed rup-list">
+                <thead>
+                    <tr>
+                        <th class="first">Project Id</th>
+                        <th>Project</th>
+                        <th>Manager</th>
+                        <th>Startdate</th>
+                        <th>Enddate</th>
+                        <th>Project Type</th>
+                        <th>Vertical</th>
+                        <th>RMS Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="task in main.client.projects" class="{{$index%2 == 0 ? 'add' : 'even'}}">
+                        <td>{{task.project_id}}</td>
+                        <td title="{{task.project_name}}">
+                            <a href="javascript:;" ng-click="clntLstCtrl.showProfile(2, task.project_id)">
+                                {{(task.project_name.length > 30) ? (task.project_name | limitTo:27)+'...' : task.project_name}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" ng-click="clntLstCtrl.showProfile(1, task.manager_id)">
+                                {{task.managerName}}
+                            </a>
+                        </td>
+                        <td>{{task.start_date}}</td>
+                        <td>{{task.end_Date}}</td>
+                        <td>{{task.p_type}}</td>
+                        <td>{{task.vertical}}</td>
+                        <td>{{task.work_hours}}</td>
+                    </tr>
+                    <tr ng-hide="main.client.projects.length">
+                        <td colspan="8">
+                            There are no tasks available.
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <tfoot ng-if="taskMain.tasks_list.List.length > 0">
+                    <tr>
+                        <td colspan="8">
+                            <ul uib-pagination total-items="taskMain.tasks_list.Total_Items" ng-model="taskMain.tasks_list.Current_Page" max-size="$scope.taskMain.tasks_list.Page_Limit" class="pagination-sm pull-right" boundary-links="true" ng-change="pageChanged()"></ul>
+                        </td>
+                    </tr>
+                </tfoot> -->
+            </table>
+        </div>
+    </div>
+</div>

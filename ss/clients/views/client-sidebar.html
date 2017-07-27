@@ -1,0 +1,25 @@
+<div class="user-side-bar-show" ng-show="main.profileSlide">
+    <span class="pro-dtl-val">
+        <a href="javascript:;" ng-click="clientCtrl.profileSlideToggle()" title="{{main.clientInfo.client_name}}">
+            {{(main.clientInfo.client_name.length > 12) ? (main.clientInfo.client_name | limitTo:12)+'...' : main.clientInfo.client_name}}
+        </a>
+    </span>
+</div>
+<div class="pro-dtl-brief">
+    <span class="slider-btn" ng-click="clientCtrl.profileSlideToggle()"><i class="fa fa-times"></i></span>
+    <div class="user-side-bar">
+        <ul class="list-unstyled pro-details-left marginTop15">
+            <li><span class="heavy-ttl"><strong>Client Information</strong></span></li>
+            <li>
+                <span class="pro-dtl-key">Client Name</span>
+                <span class="pro-dtl-val">{{main.clientInfo.client_name}}</span>
+            </li>
+        </ul>
+        <!-- <ul class="list-unstyled pro-details-left marginTop15">
+            <li><span class="heavy-ttl"><strong>Client Projects</strong></span></li>
+            <li ng-repeat="obj in main.clientInfo.projects">
+                <span class="pro-dtl-val" title="{{obj.project_name}}" style="width:100%;cursor:pointer;">{{(obj.project_name.length > 45) ? (obj.project_name | limitTo:42)+'...' : obj.project_name}}</span>
+            </li>
+        </ul> -->
+    </div>
+</div>

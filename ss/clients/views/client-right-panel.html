@@ -1,0 +1,72 @@
+<div class="col-md-12" style="margin-bottom:20px;">
+	<div class="com-md-12">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <table class="table table-condensed rup-list">
+	                <thead>
+	                    <tr>
+	                        <th class="first sort {{main.client.projects.Column == 'ProjectId' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('ProjectId')">Project Id</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'ProjectName' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('ProjectName')">Project</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'ManagerName' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('ManagerName')">Manager</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'StartDate' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('StartDate')">Startdate</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'EndDate' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('EndDate')">Enddate</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'PType' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('PType')">Project Type</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'Vertical' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('Vertical')">Vertical</th>
+
+	                        <th class="sort {{main.client.projects.Column == 'WorkHours' ? (main.client.projects.Direction == 'asc' ? 'asc' : 'desc') : ''}}" ng-click="clientRhtCtrl.sortChanged('WorkHours')">RMS Hours</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr ng-repeat="task in main.client.projects.List" class="{{$index%2 == 0 ? 'add' : 'even'}}">
+	                        <td>{{task.ProjectId}}</td>
+	                        <td title="{{task.ProjectName}}">
+	                        	 <!-- ng-click="clientRhtCtrl.showProfile(2, task.ProjectId)" -->
+	                            <a target="_blank" href="/time/timesheet?gid={{task.ProjectId}}&searchType=2">
+	                                {{(task.ProjectName.length > 30) ? (task.ProjectName | limitTo:27)+'...' : task.ProjectName}}
+	                            </a>
+	                        </td>
+	                        <td>
+	                        	 <!-- ng-click="clientRhtCtrl.showProfile(1, task.ManagerId)" -->
+	                            <a target="_blank" href="/time/timesheet?gid={{task.ManagerId}}&searchType=2">
+	                                {{task.ManagerName}}
+	                            </a>
+	                        </td>
+	                        <td>{{task.StartDate}}</td>
+	                        <td>{{task.EndDate}}</td>
+	                        <td>{{task.PType}}</td>
+	                        <td>{{task.Vertical}}</td>
+	                        <td>{{task.WorkHours}}</td>
+	                    </tr>
+	                    <tr ng-hide="main.client.projects.List.length">
+	                        <td colspan="8">
+	                            There are no tasks available.
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	            <ul class="pagination pagination-sm pull-left">
+	            	<li class="pagination-last ng-scope">
+	            		<select style="padding:4px 12px;height:29px;" class="form-control" ng-model="main.client.projects.Page_Limit" ng-change="clientRhtCtrl.pageChanged()">
+	            			<option ng-repeat="value in ['All', '10', '20', '50', '100']" value="{{value}}">{{value}}</option>
+	            		</select>
+            		</li>
+            	</ul>
+	            <ul uib-pagination 
+	            	total-items="main.client.projects.Total_Items" 
+	            	ng-model="main.client.projects.Current_Page" 
+	            	max-size="5" 
+	            	num-pages="main.client.projects.Total_Pages"
+	            	items-per-page="main.client.projects.Page_Limit"
+	            	class="pagination-sm pull-right" 
+	            	boundary-links="true" 
+	            	ng-change="clientRhtCtrl.pageChanged()"></ul>
+	        </div>
+	    </div>
+	</div>
+</div>
