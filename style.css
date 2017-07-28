@@ -1,15 +1,16 @@
 html,body{font-family:robot, verdana;font-size:12px;background-color:#fff;}
 
 .clear{clear:both;}
-.table-listing{border:1px solid #d7d7d7;border-collapse:separate;margin-bottom:0;}
+.table-listing{margin-bottom:0;}
+.table-listing.table{border:1px solid #d7d7d7;border-collapse:separate;margin-bottom:0;}
 .table-listing .table th{background-color:#f6f8fa;color:#000000;font-size:12px;font-weight:bold;border-bottom:0px solid #ddd !important;}
 .table-listing .table td{font-size:12px;font-weight:normal;height:31px;}
 .table-listing .table td p{margin:0;}
 .table-listing .table tr.add td{background-color:#ffffff;}
 .table-listing .table tr.even td{background-color:#f9f9f9;}
 .table-listing .table tr td a.act{margin-left:6px;}
-.table-listing .table th.sort{position:relative;}
-.table-listing .table th.sort:before{content:"\f0dc";font-family:fontAwesome;position:absolute;right:5px;color:#dcdcdc;cursor:pointer;}
+.table-listing .table th.sort{position:relative;cursor:pointer;}
+.table-listing .table th.sort:before{content:"\f0dc";font-family:fontAwesome;position:absolute;right:5px;color:#dcdcdc;}
 .table-listing .table th.sort:hover:before{color:#999;}
 .table-listing .table th.sort.asc:before{content:"\f0de";color:#999;}
 .table-listing .table th.sort.desc:before{content:"\f0dd";color:#999;}

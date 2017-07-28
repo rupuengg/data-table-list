@@ -10,15 +10,25 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="style.css"/>
 		<script src="angular.min.js"></script>
+		<script type="text/javascript" src="ui-bootstrap-tpls-2.2.0.js"></script>
 		<script type="text/javascript" src="main-controller.js"></script>
 		<script type="text/javascript" src="table-listing.js"></script>
 	</head>
 	<body ng-app="rup" ng-controller="mainController as mainCtrl">
-		<div class="container">
+		<div class="container" style="margin-bottom:100px;">
 			<h1>Data Table List</h1>
 			<br/>
 			<br/>
-			<table-listing width="500" cols="mainCtrl.columns" req-type="get" req-url="/data-table-list/data-list.json" show-row-number="true" is-edit-button="true" is-copy-button="true" is-delete-button="true"></table-listing>
+			<table-listing 
+				width="500" 
+				cols="mainCtrl.columns" 
+				req-type="get" 
+				req-url="/data-table-list/data.php" 
+				show-row-number="true" 
+				edit-button="edit(index, row)" 
+				copy-button="copy(index, row)" 
+				delete-button="delete(index, row)">
+			</table-listing>
 		</div>
 	</body>
 </html>
