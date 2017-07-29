@@ -11,15 +11,15 @@
 							   			'<thead>'+
 								   			'<tr>'+
 								   				'<th ng-if="self.showRowNumber" width="50">S No.</th>'+
-								   				'<th ng-repeat="(key, value) in cols" class="first sort {{\'\' == key ? (key == \'asc\' ? \'asc\' : \'desc\') : \'\'}}" ng-click="self.sortChanged(key)">{{value}}</th>'+
+								   				'<th ng-repeat="(key, value) in cols" class="first sort {{self.dt.col == key ? (self.dt.dir == \'ASC\' ? \'asc\' : \'desc\') : \'\'}}" ng-click="self.sortChanged(key)">{{value}}</th>'+
 								   				'<th ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton" width="80">&nbsp;</th>'+
 								   			'</tr>'+
 							   			'</thead>'+
 							   			'<tbody>'+
-								   			'<tr ng-if="self.tmp != \'\'">'+
-								   				'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
-								   			'</tr>'+
-								   			'<tr ng-if="self.dt.List.length > 0 && self.tmp == \'\'" ng-repeat="obj in self.dt.List">'+
+								   			// '<tr ng-if="self.tmp != \'\'">'+
+								   			// 	'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
+								   			// '</tr>'+
+								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List">'+
 								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
 								   				'<td ng-repeat="(key, value) in cols">{{obj[key]}}</td>'+
 								   				'<td ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton">'+
@@ -129,7 +129,7 @@
 					};
 
 					self.pageChanged = function(){
-						self.dt.List = [];
+						// self.dt.List = [];
 						self.bindData();
 					};
 
