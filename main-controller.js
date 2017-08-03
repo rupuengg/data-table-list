@@ -19,6 +19,22 @@
 				'ip_address': 'IP Address'
 			};
 
+			self.colformat = {
+				gender : {
+					type : 'select',
+					data : [{
+						id : 'Male',
+						title : 'Male'
+					},{
+						id : 'Female',
+						title : 'Female'
+					}],
+					func : function(o, val){
+						console.log('Hello', o, val);
+					}
+				}
+			};
+
 			$scope.edit = function(index, row){
 				console.log('Edit', index, row);
 			};

@@ -16,12 +16,15 @@
 								   			'</tr>'+
 							   			'</thead>'+
 							   			'<tbody>'+
-								   			// '<tr ng-if="self.tmp != \'\'">'+
-								   			// 	'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
-								   			// '</tr>'+
 								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List">'+
 								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
-								   				'<td ng-repeat="(key, value) in cols">{{obj[key]}}</td>'+
+								   				'<td ng-repeat="(key, value) in cols">'+
+								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
+								   					'<span ng-if="colsFormat[key].type == \'select\'">'+
+								   						'<select ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">'+
+								   						'</select>'+
+								   					'</span>'+
+							   					'</td>'+
 								   				'<td ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton">'+
 								   					'<a ng-if="self.isEditButton" class="act" ng-click="self.actionButton(\'e\', $index, obj)" href="javascript:;"><span class="fa fa-pencil"></span></a>'+
 								   					'<a ng-if="self.isCopyButton" class="act" ng-click="self.actionButton(\'c\', $index, obj)" href="javascript:;"><span class="fa fa-copy"></span></a>'+
@@ -49,6 +52,7 @@
 						   '</div>',
 				scope : {
 					cols : '=cols',
+					colsFormat : '=colsFormat',
 					editButton : '&',
 					copyButton : '&',
 					deleteButton : '&'

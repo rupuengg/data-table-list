@@ -22,6 +22,7 @@
 			<table-listing 
 				width="500" 
 				cols="mainCtrl.columns" 
+				cols-format="mainCtrl.colformat" 
 				req-type="get" 
 				req-url="/data-table-list/data.php" 
 				show-row-number="true" 
