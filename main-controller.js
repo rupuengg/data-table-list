@@ -29,6 +29,7 @@
 						id : 'Female',
 						title : 'Female'
 					}],
+					class : 'sel',
 					func : function(o, val){
 						console.log('Hello', o, val);
 					}

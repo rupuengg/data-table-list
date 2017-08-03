@@ -21,7 +21,7 @@
 								   				'<td ng-repeat="(key, value) in cols">'+
 								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
 								   					'<span ng-if="colsFormat[key].type == \'select\'">'+
-								   						'<select ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">'+
+								   						'<select ng-class="colsFormat[key].class" ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">'+
 								   						'</select>'+
 								   					'</span>'+
 							   					'</td>'+
