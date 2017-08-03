@@ -31,9 +31,13 @@
 					}],
 					class : 'sel',
 					func : function(o, val){
-						console.log('Hello', o, val);
+						self.changeGender(o, val);
 					}
 				}
+			};
+
+			self.changeGender = function(o, val){
+				console.log('Hello', o, val);
 			};
 
 			$scope.edit = function(index, row){
