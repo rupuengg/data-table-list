@@ -16,13 +16,18 @@
 								   			'</tr>'+
 							   			'</thead>'+
 							   			'<tbody>'+
-								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List">'+
+								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
 								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
 								   				'<td ng-repeat="(key, value) in cols">'+
 								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
 								   					'<span ng-if="colsFormat[key].type == \'select\'">'+
 								   						'<select ng-class="colsFormat[key].class" ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">'+
 								   						'</select>'+
+								   					'</span>'+
+								   					'<span ng-if="colsFormat[key].type == \'radio\'">'+
+								   						'<label ng-repeat="(k, item) in colsFormat[key].data">'+
+								   							'<input name="{{key+startIndex}}" value="{{item.id}}" type="radio" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">{{item.title}}'+
+								   						'</label>'+
 								   					'</span>'+
 							   					'</td>'+
 								   				'<td ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton">'+
