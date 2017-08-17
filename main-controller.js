@@ -21,7 +21,7 @@
 
 			self.colformat = {
 				gender : {
-					type : 'radio',
+					type : 'select',
 					data : [{
 						id : 'Male',
 						title : 'Male'

@@ -1,13 +1,13 @@
 ;(function(ng){
 	ng
-	.module('rup')
+	.module('rup-table-listing', [])
 	.directive('tableListing', [
 		function(){
 			return {
 				restrict : 'E',
 				template : '<div class="table-listing" style="width:{{wd}};">'+
 						   		'<div class="list">'+
-						   			'<table class="table table-condensed table-listing">'+
+						   			'<table class="rup-list table table-condensed table-listing">'+
 							   			'<thead>'+
 								   			'<tr>'+
 								   				'<th ng-if="self.showRowNumber" width="50">S No.</th>'+
@@ -58,6 +58,7 @@
 				scope : {
 					cols : '=cols',
 					colsFormat : '=colsFormat',
+                                        reqUrl : '=reqUrl',
 					editButton : '&',
 					copyButton : '&',
 					deleteButton : '&'
@@ -70,9 +71,9 @@
 
 					self.showRowNumber = $attrs.showRowNumber ? ($attrs.showRowNumber == 'true' ? true : false) : false;
 
-					self.isEditButton = $scope.editButton ? true : false;
-					self.isCopyButton = $scope.copyButton ? true : false;
-					self.isDeleteButton = $scope.deleteButton ? true : false;
+					self.isEditButton = $attrs.editButton ? true : false;
+					self.isCopyButton = $attrs.copyButton ? true : false;
+					self.isDeleteButton = $attrs.deleteButton ? true : false;
 
 					self.colsLen = Object.keys($scope.cols).length + (self.showRowNumber ? 1 : 0) + ((self.isEditButton || self.isCopyButton || self.isDeleteButton) ? 1 : 0);
 
@@ -93,7 +94,7 @@
 					self.bindData = function(){
 						var req = {
 							method : $attrs.reqType,
-							url : $attrs.reqUrl,
+							url : $scope.reqUrl,
 							params : {
 								page : self.dt.page,
 								limit : self.dt.limit,
@@ -105,7 +106,7 @@
 						self.tmp = 'Loading...';
 
 						$http(req)
-						.then(function(res){
+						.then(function(res){console.log('test', res.data);
 							self.tmp = '';
 							self.dt = res.data;
 						}, function(error){
