@@ -1,6 +1,6 @@
 ;(function(ng){
 	ng
-	.module('rup-table-listing', [])
+	.module('rup')
 	.directive('tableListing', [
 		function(){
 			return {
@@ -16,7 +16,7 @@
 								   			'</tr>'+
 							   			'</thead>'+
 							   			'<tbody>'+
-								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
+								   			'<tr ng-if="self.tmp == \'\' && self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
 								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
 								   				'<td ng-repeat="(key, value) in cols">'+
 								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
@@ -35,6 +35,13 @@
 								   					'<a ng-if="self.isCopyButton" class="act" ng-click="self.actionButton(\'c\', $index, obj)" href="javascript:;"><span class="fa fa-copy"></span></a>'+
 								   					'<a ng-if="self.isDeleteButton" class="act" ng-click="self.actionButton(\'d\', $index, obj)" href="javascript:;"><span class="fa fa-trash"></span></a>'+
 								   				'</td>'+
+								   			'</tr>'+
+											'<tr ng-if="self.tmp != \'\' && self.dt.List.length == 0">'+
+												'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
+								   			'</tr>'+
+											'<tr ng-if="self.tmp == \'\' && self.dt.List.length == 0">'+
+												'<td colspan="{{self.colsLen}}">No data found.</td>'+
+								   			'</tr>'+
 							   			'</tbody>'+
 						   			'</table>'+
 						   			'<ul class="pagination pagination-sm pull-left">'+
@@ -92,6 +99,7 @@
 					};
 
 					self.bindData = function(){
+						console.log('sdsd');
 						var req = {
 							method : $attrs.reqType,
 							url : $scope.reqUrl,

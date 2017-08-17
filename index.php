@@ -24,7 +24,7 @@
 				cols="mainCtrl.columns" 
 				cols-format="mainCtrl.colformat" 
 				req-type="get" 
-				req-url="/data-table-list/data.php" 
+				req-url="mainCtrl.getUrl" 
 				show-row-number="true" 
 				edit-button="edit(index, row)" 
 				copy-button="copy(index, row)" 

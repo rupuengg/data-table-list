@@ -9,6 +9,8 @@
 			console.log('Main Controller');
 
 			var self = this;
+			
+			self.getUrl = '/data-table-list/data.php';
 
 			self.columns = {
 				'id' : 'Id', 
