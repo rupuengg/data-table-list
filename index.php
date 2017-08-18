@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="ui-bootstrap-tpls-2.2.0.js"></script>
 		<script type="text/javascript" src="main-controller.js"></script>
 		<script type="text/javascript" src="table-listing.js"></script>
+		<script type="text/javascript" src="jquery.js"></script>
 	</head>
 	<body ng-app="rup" ng-controller="mainController as mainCtrl">
 		<div class="container" style="margin-bottom:100px;">
@@ -23,6 +24,7 @@
 				width="500" 
 				cols="mainCtrl.columns" 
 				cols-format="mainCtrl.colformat" 
+				ng-model="mainCtrl.lst"
 				req-type="get" 
 				req-url="mainCtrl.getUrl" 
 				show-row-number="true" 

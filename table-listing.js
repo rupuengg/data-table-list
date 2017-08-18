@@ -21,12 +21,13 @@
 								   				'<td ng-repeat="(key, value) in cols">'+
 								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
 								   					'<span ng-if="colsFormat[key].type == \'select\'">'+
-								   						'<select ng-class="colsFormat[key].class" ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">'+
+														'<span ng-if="">Loading...</span>'+
+								   						'<select id="select_{{startIndex}}_{{key}}" ng-class="colsFormat[key].class" ng-options="item.id as item.title for item in colsFormat[key].data" ng-model="obj[key]" ng-change="self.change(\'select_{{startIndex}}_{{key}}\', key, startIndex, obj)">'+
 								   						'</select>'+
 								   					'</span>'+
 								   					'<span ng-if="colsFormat[key].type == \'radio\'">'+
 								   						'<label ng-repeat="(k, item) in colsFormat[key].data">'+
-								   							'<input name="{{key+startIndex}}" value="{{item.id}}" type="radio" ng-model="obj[key]" ng-change="colsFormat[key].func(obj, obj[key])">{{item.title}}'+
+								   							'<input name="{{key+startIndex}}" value="{{item.id}}" type="radio" ng-model="obj[key]" ng-change="colsFormat[key].func(startIndex, obj, obj[key])">{{item.title}}'+
 								   						'</label>'+
 								   					'</span>'+
 							   					'</td>'+
@@ -65,7 +66,8 @@
 				scope : {
 					cols : '=cols',
 					colsFormat : '=colsFormat',
-                                        reqUrl : '=reqUrl',
+					ngModel : '=ngModel',
+					reqUrl : '=reqUrl',
 					editButton : '&',
 					copyButton : '&',
 					deleteButton : '&'
@@ -99,7 +101,6 @@
 					};
 
 					self.bindData = function(){
-						console.log('sdsd');
 						var req = {
 							method : $attrs.reqType,
 							url : $scope.reqUrl,
@@ -114,9 +115,10 @@
 						self.tmp = 'Loading...';
 
 						$http(req)
-						.then(function(res){console.log('test', res.data);
+						.then(function(res){
 							self.tmp = '';
 							self.dt = res.data;
+							$scope.ngModel = self.dt.List;
 						}, function(error){
 							self.tmp = '';
 							$q.reject(error);
@@ -138,6 +140,7 @@
 								});
 							break;
 							case 'd':
+								self.dt.List.splice(index, 1);
 								$scope.deleteButton({
 									index : index,
 									row : obj
@@ -163,6 +166,11 @@
 
 		                self.bindData();
 		            };
+					
+					self.change = function(othis, key, startIndex, obj){
+						console.log('ok', othis, angular.element("#"+othis));
+						// colsFormat[key].func(startIndex, obj, obj[key]);
+					};
 
 					self.bindData();
 				},

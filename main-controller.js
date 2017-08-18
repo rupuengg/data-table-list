@@ -11,6 +11,8 @@
 			var self = this;
 			
 			self.getUrl = '/data-table-list/data.php';
+			
+			self.lst = [];
 
 			self.columns = {
 				'id' : 'Id', 
@@ -34,12 +36,14 @@
 					class : 'sel',
 					func : function(o, val){
 						self.changeGender(o, val);
-					}
+					},
+					isRemove : true
 				}
 			};
 
-			self.changeGender = function(o, val){
-				console.log('Hello', o, val);
+			self.changeGender = function(index, o, val){
+				console.log('Hello', index, o, val, self.lst);
+				self.lst.splice(index, 1);
 			};
 
 			$scope.edit = function(index, row){
