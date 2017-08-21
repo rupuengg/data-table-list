@@ -51,6 +51,7 @@
 					}
 				}
 			};
+			self.isProgress = false;
 
 			$http
 			.get('/data-table-list/datadrop.php')

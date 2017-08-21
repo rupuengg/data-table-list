@@ -23,7 +23,7 @@
 			<br/>
 			<br/>
 			<table-list 
-				width="500" 
+				width="100%" 
 				config="self.config"
 				ng-model="data_list"
 				show-row-number="true"
