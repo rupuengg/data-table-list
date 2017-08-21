@@ -6,7 +6,7 @@
 			return {
 				restrict : 'E',
 				template : '<div class="table-listing" style="width:{{wd}};">'+
-						   		'<div class="list">'+
+						   		'<div class="list" style="position:relative;">'+
 						   			'<table class="rup-list table table-condensed table-listing">'+
 							   			'<thead>'+
 								   			'<tr>'+
@@ -16,7 +16,7 @@
 								   			'</tr>'+
 							   			'</thead>'+
 							   			'<tbody>'+
-								   			'<tr ng-if="self.tmp == \'\' && self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
+								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
 								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
 								   				'<td ng-repeat="(key, value) in cols">'+
 								   					'<span ng-if="!colsFormat[key]">{{obj[key]}}</span>'+
@@ -37,12 +37,12 @@
 								   					'<a ng-if="self.isDeleteButton" class="act" ng-click="self.actionButton(\'d\', $index, obj)" href="javascript:;"><span class="fa fa-trash"></span></a>'+
 								   				'</td>'+
 								   			'</tr>'+
-											'<tr ng-if="self.tmp != \'\' && self.dt.List.length == 0">'+
-												'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
-								   			'</tr>'+
-											'<tr ng-if="self.tmp == \'\' && self.dt.List.length == 0">'+
-												'<td colspan="{{self.colsLen}}">No data found.</td>'+
-								   			'</tr>'+
+											// '<tr ng-if="self.tmp != \'\' && self.dt.List.length == 0">'+
+											// 	'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
+								   // 			'</tr>'+
+											// '<tr ng-if="self.tmp == \'\' && self.dt.List.length == 0">'+
+											// 	'<td colspan="{{self.colsLen}}">No data found.</td>'+
+								   // 			'</tr>'+
 							   			'</tbody>'+
 						   			'</table>'+
 						   			'<ul class="pagination pagination-sm pull-left">'+
@@ -61,6 +61,8 @@
 							            'class="pagination-sm pull-right" '+
 							            'boundary-links="true" '+
 							            'ng-change="self.pageChanged()"></ul>'+
+						   			'<div ng-if="self.tmp != \'\'" style="position:absolute;top:0px;left:0px;z-index:1;opacity:0.2;display:block;width:100%;height:100%;background-color:#000;"></div>'+
+						   			'<div ng-if="self.tmp != \'\'" style="position:absolute;top:0px;left:0px;z-index:2;display:block;width:100%;height:100%;color:#fff;"><span style="display:block;font-size:24px;text-align:center;padding-top:100px;opacity:1;">Loading...</span></div>'+
 						   		'</div>'+
 						   '</div>',
 				scope : {
@@ -76,6 +78,7 @@
 					scope.wd = angular.isNumber(scope.width) ? scope.width + 'px' : scope.width;
 				},
 				controller : function($scope, $http, $q, $attrs, $window){
+					// console.log($scope, $attrs);
 					var self = this;
 
 					self.showRowNumber = $attrs.showRowNumber ? ($attrs.showRowNumber == 'true' ? true : false) : false;
@@ -125,6 +128,10 @@
 						});
 					};
 
+					$scope.$watch("reqUrl", function(newValue, oldValue){
+						self.bindData();
+					});
+
 					self.actionButton = function(action, index, obj){
 						switch(action){
 							case 'e':
@@ -155,6 +162,8 @@
 					};
 
 					self.sortChanged = function(column){
+						self.dt.page = 1;
+
 						if(self.dt.col == column){
 							self.dt.dir = (self.dt.dir == 'ASC') ? 'DESC' : 'ASC';	
 						}else{
@@ -171,8 +180,6 @@
 						console.log('ok', othis, angular.element("#"+othis));
 						// colsFormat[key].func(startIndex, obj, obj[key]);
 					};
-
-					self.bindData();
 				},
 				controllerAs : 'self'
 			};

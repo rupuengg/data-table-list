@@ -5,12 +5,16 @@
 	])
 	.controller('mainController', [
 		'$scope',
-		function($scope){
+		'$http',
+		function($scope, $http){
 			console.log('Main Controller');
 
 			var self = this;
+
+			self.showRecords = [];
+			self.showGender = 'All';
 			
-			self.getUrl = '/data-table-list/data.php';
+			self.getUrl = '/data-table-list/data.php?gender='+self.showGender;
 			
 			self.lst = [];
 
@@ -26,19 +30,31 @@
 			self.colformat = {
 				gender : {
 					type : 'select',
-					data : [{
-						id : 'Male',
-						title : 'Male'
-					},{
-						id : 'Female',
-						title : 'Female'
-					}],
+					data : [],
 					class : 'sel',
 					func : function(o, val){
 						self.changeGender(o, val);
 					},
 					isRemove : true
 				}
+			};
+
+			$http
+			.get('/data-table-list/datadrop.php')
+			.then(function(res){
+				self.colformat.gender.data = res.data;
+				self.showRecords = res.data;
+				self.showRecords.unshift({'id' : 'All', 'title' : 'All'});
+			}, function(error){
+				console.log(error);
+			});
+
+			self.changeCheck = function(val){
+				self.getUrl = '/data-table-list/data.php?gender='+val;
+			};
+
+			self.bindData = function(){
+				console.log('sdsd');
 			};
 
 			self.changeGender = function(index, o, val){

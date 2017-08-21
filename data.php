@@ -1,62 +1,30 @@
 <?php
+	require_once('db/Database.php');
+
 	$post = $_REQUEST;
+
+	$gender = !empty($post['gender']) ? $post['gender'] : 'All';
 
 	$page = !empty($post['page']) ? $post['page'] : 1;
 	$limit = !empty($post['limit']) ? $post['limit'] : 'All';
 	$col = !empty($post['col']) ? $post['col'] : 'id';
-	$dir = !empty($post['dir']) ? strtoupper($post['dir']) : 'ASC';
+	$dir = !empty($post['dir']) ? strtoupper($post['dir']) : 'DESC';
 	$offset = (($page - 1) * $limit);
 
-	$a = json_decode(file_get_contents('data-list.json'));
+	$db = new Database('test', 'root', 'mysql', 'localhost'); // $host is optional and defaults to 'localhost'
 
-	function array_sort($array, $on, $order='ASC'){
-	    $new_array = array();
-	    $sortable_array = array();
+	$where = array();
+	if($gender != 'All') 
+		$where = array('gender' => $gender);
 
-	    if(count($array) > 0){
-	        foreach($array as $k => $v){
-	            if (is_array($v)){
-	                foreach($v as $k2 => $v2){
-	                    if($k2 == $on){
-	                        $sortable_array[$k] = $v2;
-	                    }
-	                }
-	            }else{
-	                $sortable_array[$k] = $v;
-	            }
-	        }
+	$listCount = $db->select('user', $where, "", "", '', 'count(*) as cnt');
+	$listCount = $listCount->row_array();
+	$listCount = $listCount['cnt'];
 
-	        switch($order){
-	            case 'ASC':
-	                asort($sortable_array);
-	                break;
-	            case 'DESC':
-	                arsort($sortable_array);
-	                break;
-	        }
+	$limit = ($limit == 'All') ? $listCount : $limit;
 
-	        foreach ($sortable_array as $k => $v) {
-	            $new_array[$k] = $array[$k];
-	        }
-	    }
-
-	    return $new_array;
-	}
-
-	$a = array_sort($a, $col, $dir);
-
-	$listCount = count($a);
-
-	$list = array();
-	if($limit != 'All'){
-		$list = array_splice($a, $offset, $limit);
-	}else{
-		$list = $a;
-	}
-	// echo '<pre>';print_r($list);die;
-
-	// echo $page.' '.$limit.' '.$col.' '.$dir;
-	// echo '<pre>';print_r($list);die;
+	$list = $db->select('user', $where, "$limit", "$col $dir ", '', '*', $offset);
+	$list = $list->result_array();
 
 	$tmpList = ($limit == 'All') ? $listCount : $limit;
 
