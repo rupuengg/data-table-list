@@ -13,7 +13,7 @@
 
 	$db = new Database('test', 'root', 'mysql', 'localhost'); // $host is optional and defaults to 'localhost'
 
-	$where = array();
+	$where = array('is_archive' => 0);
 	if($gender != 'All') 
 		$where = array('gender' => $gender);
 

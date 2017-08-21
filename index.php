@@ -13,7 +13,7 @@
 		<script src="angular.min.js"></script>
 		<script type="text/javascript" src="ui-bootstrap-tpls-2.2.0.js"></script>
 		<script type="text/javascript" src="main-controller.js"></script>
-		<script type="text/javascript" src="table-listing.js"></script>
+		<script type="text/javascript" src="rup-table-list.js"></script>
 	</head>
 	<body ng-app="rup" ng-controller="mainController as self">
 		<div class="container" style="margin-bottom:100px;">
@@ -22,21 +22,18 @@
 			<select ng-options="item.id as item.title for item in self.showRecords" ng-model="self.showGender" ng-change="self.changeCheck(self.showGender)"></select>
 			<br/>
 			<br/>
-			<table-listing 
+			<table-list 
 				width="500" 
-				cols="self.columns" 
-				cols-format="self.colformat" 
-				ng-model="self.lst"
-				req-type="get" 
-				req-url="self.getUrl" 
-				show-row-number="false" 
+				config="self.config"
+				ng-model="data_list"
+				show-row-number="true"
+				min-limit="10" 
+				is-progress="self.isProgress"
+				show-pagging="false"
 				edit-button="edit(index, row)" 
 				copy-button="copy(index, row)" 
 				delete-button="delete(index, row)">
-			</table-listing>
-				<!-- req-data="self.bindData" -->
-				<!-- req-type="get" 
-				req-url="self.getUrl"  -->
+			</table-list>
 		</div>
 	</body>
 </html>

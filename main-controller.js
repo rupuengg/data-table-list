@@ -1,48 +1,61 @@
 ;(function(ng){
 	ng
 	.module('rup', [
-		'ui.bootstrap'
+		'ui.bootstrap',
+		'rup-table-list'
 	])
 	.controller('mainController', [
 		'$scope',
 		'$http',
 		function($scope, $http){
-			console.log('Main Controller');
+			$scope.data_list = [];
 
 			var self = this;
 
 			self.showRecords = [];
 			self.showGender = 'All';
-			
-			self.getUrl = '/data-table-list/data.php?gender='+self.showGender;
-			
-			self.lst = [];
 
-			self.columns = {
-				'id' : 'Id', 
-				'first_name' : 'Firstname', 
-				'last_name' : 'Lastname', 
-				'email' : 'Email', 
-				'gender': 'Gender',
-				'ip_address': 'IP Address'
-			};
-
-			self.colformat = {
-				gender : {
-					type : 'select',
-					data : [],
-					class : 'sel',
-					func : function(o, val){
-						self.changeGender(o, val);
+			self.config = {
+				reqType : 'get',
+				reqUrl : '/data-table-list/data.php?gender='+self.showGender,
+				columns : {
+					'id' : 'Id', 
+					'first_name' : 'Firstname', 
+					'last_name' : 'Lastname', 
+					'email' : 'Email', 
+					'gender': 'Gender',
+					'ip_address': 'IP Address',
+					'is_archive': 'Is Archive'
+				},
+				colformat : {
+					gender : {
+						type : 'select',
+						data : [],
+						class : 'sel',
+						func : function(o, val){
+							self.changeGender(o, val);
+						}
 					},
-					isRemove : true
+					is_archive : {
+						type : 'select',
+						data : [{
+							id : '0',
+							title : '0'
+						},{
+							id : '1',
+							title : '1'
+						}],
+						func : function(o, val){
+							self.archived(o, val);
+						}
+					}
 				}
 			};
 
 			$http
 			.get('/data-table-list/datadrop.php')
 			.then(function(res){
-				self.colformat.gender.data = res.data;
+				self.config.colformat.gender.data = res.data;
 				self.showRecords = res.data;
 				self.showRecords.unshift({'id' : 'All', 'title' : 'All'});
 			}, function(error){
@@ -50,7 +63,7 @@
 			});
 
 			self.changeCheck = function(val){
-				self.getUrl = '/data-table-list/data.php?gender='+val;
+				self.config.reqUrl = '/data-table-list/data.php?gender='+val;
 			};
 
 			self.bindData = function(){
@@ -58,8 +71,23 @@
 			};
 
 			self.changeGender = function(index, o, val){
-				console.log('Hello', index, o, val, self.lst);
-				self.lst.splice(index, 1);
+				// console.log('Hello', index, o, val, $scope.data_list);
+				$scope.data_list.splice(index, 1);
+			};
+
+			self.isProgress = false;
+			self.archived = function(index, o, val){
+				self.isProgress = true;
+				$http
+				.get('/data-table-list/data-action.php?id='+o.id+'&status='+o.is_archive)
+				.then(function(res){
+					if(res.data.Status == '1')
+						$scope.data_list.splice(index, 1);
+					self.isProgress = false;
+				}, function(error){
+					console.log(error);
+				});
+				// console.log('Hello', index, o, val, $scope.data_list);
 			};
 
 			$scope.edit = function(index, row){
