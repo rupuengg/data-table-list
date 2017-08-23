@@ -22,14 +22,18 @@
 								   					'<span ng-if="!config.colformat[key]">{{obj[key].length > 30 ? (obj[key]|limitTo : 27) + \'...\' : obj[key]}}</span>'+
 								   					'<span ng-if="config.colformat[key].type == \'select\'">'+
 														'<span ng-if="">Loading...</span>'+
-								   						'<select id="select_{{startIndex}}_{{key}}" ng-class="config.colformat[key].class" ng-options="item.id as item.title for item in config.colformat[key].data" ng-model="obj[key]" ng-change="self.change(\'select_{{startIndex}}_{{key}}\', key, startIndex, obj)">'+
+								   						'<select ng-class="config.colformat[key].class" ng-options="item.id as item.title for item in config.colformat[key].data" ng-model="obj[key]" ng-change="self.change(key, startIndex, obj)">'+
 								   						'</select>'+
 								   					'</span>'+
 								   					'<span ng-if="config.colformat[key].type == \'radio\'">'+
 								   						'<label ng-repeat="(k, item) in config.colformat[key].data">'+
-								   							'<input name="{{key+startIndex}}" value="{{item.id}}" type="radio" ng-model="obj[key]" ng-change="config.colformat[key].func(startIndex, obj, obj[key])">{{item.title}}'+
+								   							'<input name="{{key+startIndex}}" value="{{item.id}}" type="radio" ng-model="obj[key]" ng-change="config.colformat[key].func(key, startIndex, obj)">{{item.title}}'+
 								   						'</label>'+
 								   					'</span>'+
+								   					'<div ng-if="config.colformat[key].type == \'onoff\'" ng-class="config.colformat[key].class">'+
+							                            '<span title="On" class="{{obj[key] == 1 ? \'active\' : \'\'}}" ng-click="self.change(key, startIndex, obj)">ON</span>'+
+							                            '<span title="Off" class="{{obj[key] == 0 ? \'active\' : \'\'}}" ng-click="self.change(key, startIndex, obj)">OFF</span>'+
+							                        '</div>'+
 							   					'</td>'+
 								   				'<td ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton">'+
 								   					'<a ng-if="self.isEditButton" class="act" ng-click="self.actionButton(\'e\', $index, obj)" href="javascript:;"><span class="fa fa-pencil"></span></a>'+
@@ -215,9 +219,9 @@
 		                self.bindData(false);
 		            };
 					
-					self.change = function(othis, key, startIndex, obj){
-						// console.log('ok', othis, angular.element("#"+othis));
-						$scope.config.colformat[key].func(startIndex, obj, obj[key]);
+					self.change = function(key, startIndex, obj){
+						console.log('ok', key, startIndex, obj);
+						// $scope.config.colformat[key].func(startIndex, obj, obj[key]);
 					};
 				},
 				controllerAs : 'self'
