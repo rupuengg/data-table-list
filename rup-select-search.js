@@ -54,8 +54,19 @@
 					mlist : '=mlist',
 					rlist : '=ngModel'
 				},
-				link : function(scope, element, attrs, ngModel){
-					if(!ngModel) return;
+				link : function(scope, element, attrs, self){
+					self.$parsers.unshift(function(viewValue){
+						var INTEGER_REGEXP = /^\d+$/;
+		                if(INTEGER_REGEXP.test(viewValue)){
+		                	// it is valid
+		                    ctrl.$setValidity('required', true);
+		                    return viewValue;
+		                }else{
+		                	// it is invalid, return undefined (no model update)
+		                    ctrl.$setValidity('required', false);
+		                    return undefined;
+		                }
+		            });
 
 					scope.wd = parseInt(attrs.width) ? attrs.width + 'px' : attrs.width;
 					scope.keyFormat = attrs.kFormat;
