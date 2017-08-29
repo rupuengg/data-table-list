@@ -2,7 +2,9 @@
 	ng
 	.module('rup-table-list', [])
 	.directive('tableList', [
-		function(){
+		'$window',
+		'$document',
+		function($window, $document){
 			return {
 				restrict : 'E',
 				template : '<div class="table-listing" style="width:{{wd}};">'+
@@ -87,6 +89,19 @@
 				},
 				link : function(scope, element, attrs){
 					scope.wd = angular.isNumber(scope.width) ? scope.width + 'px' : scope.width;
+
+					var raw = angular.element($document)[0].body;
+		            console.log('loading directive');
+		                
+		            angular.element($document).bind('scroll', function () {
+		                console.log('in scroll');
+		                console.log(raw.scrollTop + raw.offsetHeight);
+		                console.log(raw.scrollHeight);
+		                if (raw.scrollTop + raw.offsetHeight > raw.scrollHeight) {
+		                    console.log("I am at the bottom");
+		                    // scope.$apply(attrs.scrolly);
+		                }
+		            });
 				},
 				controller : function($scope, $http, $q, $attrs, $window){
 					var self = this;

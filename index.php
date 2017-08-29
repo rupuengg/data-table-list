@@ -27,7 +27,7 @@
 				config="self.config"
 				ng-model="data_list"
 				show-row-number="true"
-				min-limit="10" 
+				min-limit="50" 
 				is-progress="self.isProgress"
 				show-pagging="false"
 				edit-button="edit(index, row)" 
