@@ -10,45 +10,28 @@
 					var BLANK = /\S+/;
 
 					
+					
 					ctrl.$validators.blank = function(modelValue, viewValue){
-						//var value = viewValue;
-						//console.log(scope);
-						if(ctrl.$pristine){
+						console.log(viewValue, scope.valBlank.validation(viewValue));
+						// if(!ctrl){ return }
+
+						if(ctrl.$pristine && scope.valBlank.validation(viewValue)){
 							return false;
 						}
-						return BLANK.test(viewValue);
-
-						// if(ctrl.$isEmpty(modelValue)){
-						// 	return true;
-						// }
-						// Susu
-						// return false;
+						return !scope.valBlank.validation(viewValue);
 					};
 
 					// ctrl.$validate();
+				},
+				controller : function(){
+
+					this.validation = function(value){
+						return !value || value.length === 0;
+					};
 
 
-					// For DOM - model validation
-					// ctrl.$parsers.unshift(function(viewValue){
-					// 	if(BLANK.test(viewValue)){ //Valid
-					// 		ctrl.$setValidity('blank', true);
-					// 	}else{
-					// 		ctrl.$setValidity('blank', false);
-					// 	}
-					// 	return viewValue;
-					// });
-
-					// For model - DOM validation
-					// ctrl.$formatters.unshift(function(value){
-					// 	if(!BLANK.test(value)){ //Valid
-					// 		ctrl.$setValidity('blank', true);
-					// 	}else{
-					// 		ctrl.$setValidity('blank', false);
-					// 	}
-					// 	return value;
-					// });
-					console.log(ctrl);
-				}
+				},
+				controllerAs : 'valBlank'
 			};
 		}
 	]);
