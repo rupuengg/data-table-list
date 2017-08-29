@@ -7,13 +7,8 @@
 				restrict : 'A',
 				require : 'ngModel',
 				link : function(scope, element, attrs, ctrl){
-					var BLANK = /\S+/;
-
-					
-					
 					ctrl.$validators.blank = function(modelValue, viewValue){
-						console.log(viewValue, scope.valBlank.validation(viewValue));
-						// if(!ctrl){ return }
+						console.log('Validation', viewValue, scope.valBlank.validation(viewValue));
 
 						if(ctrl.$pristine && scope.valBlank.validation(viewValue)){
 							return false;
@@ -24,12 +19,9 @@
 					// ctrl.$validate();
 				},
 				controller : function(){
-
 					this.validation = function(value){
 						return !value || value.length === 0;
 					};
-
-
 				},
 				controllerAs : 'valBlank'
 			};

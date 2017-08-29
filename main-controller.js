@@ -2,7 +2,9 @@
 	ng
 	.module('rup', [
 		'ui.bootstrap',
-		'rup-table-list'
+		'rup-table-list',
+		'rup-select-search',
+		'rup-validation'
 	])
 	.controller('mainController', [
 		'$scope',
@@ -11,6 +13,40 @@
 			$scope.data_list = [];
 
 			var self = this;
+
+			self.mlist = [{
+				id : 1,
+				name : 'AAAA'
+			},{
+				id : 2,
+				name : 'BBBB'
+			},{
+				id : 3,
+				name : 'CCCC'
+			},{
+				id : 4,
+				name : 'DDDD'
+			},{
+				id : 5,
+				name : 'EEEE'
+			},{
+				id : 6,
+				name : 'FFFF'
+			},{
+				id : 7,
+				name : 'GGGG'
+			},{
+				id : 8,
+				name : 'HHHH'
+			},{
+				id : 9,
+				name : 'IIII'
+			},{
+				id : 10,
+				name : 'JJJJ'
+			}];
+			$scope.user = [];
+			$scope.user.rlist = [];
 
 			self.showRecords = [];
 			self.showGender = 'All';
@@ -62,6 +98,12 @@
 			}, function(error){
 				console.log(error);
 			});
+
+			self.isAddNew = true;
+			self.AddNew = function(){
+				self.isAddNew = true;
+				console.log('Add New');
+			};
 
 			self.changeCheck = function(val){
 				self.config.reqUrl = '/data-table-list/data.php?gender='+val;
