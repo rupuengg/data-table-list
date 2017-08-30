@@ -48,7 +48,7 @@
                         '</p>' +
                         '</div>' +
                         '</div>' +
-                        '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in mlist" ng-model="rlist" blank multiple style="width:500px;"></select>{{rlist}}' +
+                        '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in mlist" ng-model="rlist" blank multiple style="width:500px;display:none;"></select>' +
                         '<div class="clear"></div>' +
                     '</div>',
                 scope: {
@@ -56,10 +56,10 @@
                     mlist : '=mlist',
                     rlist : '=ngModel',
                     valiType : '@valiType',
-                    validator : '@'
+                    validator : '&'
                 },
                 link: function(scope, element, attrs, ctrl){
-                    console.log('Select', scope);
+                    console.log('Select', scope.validator);
                     // scope.ctrl = obj[0];
                     // scope.from = obj[0];
                     // console.log('ngModelController', scope.ctrl);
@@ -70,15 +70,23 @@
                     scope.isReverse = attrs.isReverse ? (attrs.isReverse == 'true' ? true : false) : false;
 
                     // if(scope.validator){
+                    //     function validate(value){
+                    //         if(ctrl.$pristine && scope.validator(value)){
+                    //             return false;
+                    //         }
+                    //         return !scope.validator(value);
+                    //     }
                         // ctrl.$validators.blank = function(modelValue, viewValue){
-                        //     console.log('Valii', viewValue, scope.validator(viewValue));
-
                         //     if(ctrl.$pristine && scope.validator(viewValue)){
                         //         return false;
                         //     }
                         //     return !scope.validator(viewValue);
                         // };
                     // }
+
+                    // ctrl.$parsers.unshift(validate);
+                    // ctrl.$formatters.unshift(validate);
+                    // // ctrl.$validators.unshift(validate);
                 },
                 controller: function($scope, $filter, $attrs){
                     $scope.wd = parseInt($attrs.width) ? $attrs.width + 'px' : $attrs.width;
@@ -91,14 +99,18 @@
 
                     self.mlst = angular.copy($scope.mlist);
 
+                    self.rlst = [];
+
                     // Move All Items To Right
                     self.moveAllRight = function() {
                         angular.forEach($scope.mlist, function(value, key) {
-                            if (checkItem($scope.rlist, value[$scope.keyFormat]) < 0) {
-                                $scope.rlist.push(value[$scope.keyFormat]);
+                            if (checkItem(self.rlst, value[$scope.keyFormat]) < 0) {
+                                self.rlst.push(value[$scope.keyFormat]);
                             }
-
                         });
+
+                        $scope.rlist = self.rlst;
+
                         if ($scope.isReverse)
                             $scope.mlist = [];
                     };
@@ -106,10 +118,12 @@
                     // Move Clicked Items To Right
                     self.moveRight = function(index) {
                         var lst = $filter('filter')($scope.mlist, $scope.searchText);
-                        if (checkItem($scope.rlist, lst[index][$scope.keyFormat]) < 0) {
-                            $scope.rlist.push(lst[index][$scope.keyFormat]);
+                        if (checkItem(self.rlst, lst[index][$scope.keyFormat]) < 0) {
+                            self.rlst.push(lst[index][$scope.keyFormat]);
                         }
                         $scope.searchText = '';
+
+                        $scope.rlist = self.rlst;
 
                         if ($scope.isReverse)
                             $scope.mlist.splice(index, 1);
@@ -117,6 +131,7 @@
 
                     // Remove All Items From Right
                     self.removeAllRight = function() {
+                        self.rlst = [];
                         $scope.rlist = [];
 
                         if ($scope.isReverse)
@@ -125,11 +140,16 @@
 
                     // Remove Clicked Items From Right
                     self.removeRight = function(index) {
-                        for (var i = index; i < $scope.rlist.length; i++) {
-                            $scope.rlist[i].rPos = $scope.rlist[i].rPos - 1;
+                        for (var i = index; i < self.rlst.length; i++) {
+                            self.rlst[i].rPos = self.rlst[i].rPos - 1;
                         }
 
-                        $scope.rlist.splice(index, 1);
+                        self.rlst.splice(index, 1);
+
+                        if(self.rlst.length > 0)
+                            $scope.rlist = self.rlst;
+                        else
+                            $scope.rlist = [];
 
                         if ($scope.isReverse)
                             $scope.mlist = returnOrderArray($scope.rlist);
