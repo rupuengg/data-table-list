@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Fuck Off",
+  "description": "This extension will calculate the time that spend in jail.",
+  "version": "1.0",
+  "browser_action": {
+   "default_icon": "middle-finger.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}

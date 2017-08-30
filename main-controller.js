@@ -13,6 +13,7 @@
 			$scope.data_list = [];
 
 			var self = this;
+			// console.log('Main', $scope);
 
 			self.mlist = [{
 				id : 1,
@@ -87,6 +88,7 @@
 					}
 				}
 			};
+
 			self.isProgress = false;
 
 			$http

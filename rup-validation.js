@@ -8,7 +8,7 @@
 				require : 'ngModel',
 				link : function(scope, element, attrs, ctrl){
 					ctrl.$validators.blank = function(modelValue, viewValue){
-						console.log('Validation', viewValue, scope.valBlank.validation(viewValue));
+						// console.log('Validation', viewValue, scope.valBlank.validation(viewValue));
 
 						if(ctrl.$pristine && scope.valBlank.validation(viewValue)){
 							return false;

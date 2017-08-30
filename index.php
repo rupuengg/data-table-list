@@ -51,7 +51,16 @@
 						{{user.firstname}} - {{user_form.firstname.$error}}
 						<div class="form-group">
 							<label>List</label>
-							<rup-select-search form="user_form" name="rlist" with="500" mlist="self.mlist" ng-model="user.rlist" k-format="id" v-format="name" blank validator="blank"></rup-select-search>
+							<rup-select-search 
+								name="rlist" 
+								with="500" 
+								mlist="self.mlist" 
+								ng-model="user.rlist" 
+								k-format="id" 
+								v-format="name" 
+								validator="valBlank.validation" 
+								vali-type="blank">
+							</rup-select-search>
 							<div ng-show="user_form.$submitted || user_form.rlist.$dirty">
 								<div ng-show="user_form.rlist.$error.blank">Rlist field is mandatory.</div>
 							</div>
@@ -71,6 +80,7 @@
 					</div>
 				</div>
 			</div>
+			<pre>{{valBlank | json}}</pre>
 		</div>
 	</body>
 </html>
