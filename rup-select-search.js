@@ -2,7 +2,8 @@
     ng
     .module('rup-select-search', [])
     .directive('rupSelectSearch', [
-        function() {
+        '$compile',
+        function($compile) {
             return {
                 restrict: 'E',
                 require: 'ngModel', //['ngModel', '^?form'],
@@ -48,7 +49,7 @@
                         '</p>' +
                         '</div>' +
                         '</div>' +
-                        '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in mlist" ng-model="rlist" blank multiple style="width:500px;display:none;"></select>' +
+                        '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in mlist" ng-model="rlist" multiple style="width:500px;display:block;"></select>' +
                         '<div class="clear"></div>' +
                     '</div>',
                 scope: {
@@ -59,7 +60,8 @@
                     validator : '&'
                 },
                 link: function(scope, element, attrs, ctrl){
-                    console.log('Select', scope.validator);
+
+                    // console.log('Select', scope.validator);
                     // scope.ctrl = obj[0];
                     // scope.from = obj[0];
                     // console.log('ngModelController', scope.ctrl);
@@ -68,6 +70,10 @@
                     scope.keyFormat = attrs.kFormat;
                     scope.valueFormat = attrs.vFormat;
                     scope.isReverse = attrs.isReverse ? (attrs.isReverse == 'true' ? true : false) : false;
+
+                    element.find('select').attr(scope.valiType, '');
+                    // element.find('option').remove();
+                    $compile(element.contents().find('select'))(scope);
 
                     // if(scope.validator){
                     //     function validate(value){
@@ -88,7 +94,14 @@
                     // ctrl.$formatters.unshift(validate);
                     // // ctrl.$validators.unshift(validate);
                 },
-                controller: function($scope, $filter, $attrs){
+                // pre : function(scope, element){
+                //     element.find('select').attr(scope.valiType, '');
+                // },
+                // post: function(scope, element) {
+                //     // element.find('select').attr(scope.valiType, '');
+                //     $compile(element.contents().find('select'))(scope);
+                // },
+                controller: function($scope, $filter, $attrs, $element){
                     $scope.wd = parseInt($attrs.width) ? $attrs.width + 'px' : $attrs.width;
 
                     $scope.searchText = '';
