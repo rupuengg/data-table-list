@@ -28,9 +28,10 @@
 			<table-list 
 				ng-if="!self.isAddNew"
 				width="100%" 
+				show-checkbox="true"
 				config="self.config"
 				ng-model="data_list"
-				show-row-number="true"
+				show-row-number="false"
 				min-limit="10" 
 				is-progress="self.isProgress"
 				show-pagging="false"
@@ -79,8 +80,8 @@
 						<pre>{{user_form.rlist | json}}</pre>
 					</div>
 				</div>
+				<pre>{{valBlank | json}}</pre>
 			</div>
-			<pre>{{valBlank | json}}</pre>
 		</div>
 	</body>
 </html>

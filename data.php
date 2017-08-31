@@ -3,6 +3,7 @@
 
 	$post = $_REQUEST;
 
+	$searchText = !empty($post['searchText']) ? $post['searchText'] : '';
 	$gender = !empty($post['gender']) ? $post['gender'] : 'All';
 
 	$page = !empty($post['page']) ? $post['page'] : 1;
@@ -11,7 +12,7 @@
 	$dir = !empty($post['dir']) ? strtoupper($post['dir']) : 'DESC';
 	$offset = (($page - 1) * $limit);
 
-	$db = new Database('test', 'root', 'mysql', 'localhost'); // $host is optional and defaults to 'localhost'
+	$db = new Database('test', 'root', 'qwerty', 'localhost'); // $host is optional and defaults to 'localhost'
 
 	$where = array('is_archive' => 0);
 	if($gender != 'All') 
@@ -29,12 +30,12 @@
 	$tmpList = ($limit == 'All') ? $listCount : $limit;
 
     $response = ['List' => $list, 
-            'total_items' => $listCount, 
-            'page' => $page,
-            'total_pages' => (($listCount % $tmpList == 0) ? $listCount / $tmpList : ((int)($listCount / $tmpList) + 1)),
-            'limit' => $limit,
-            'col' => $col,
-            'dir' => $dir];
+	            'total_items' => $listCount, 
+	            'page' => $page,
+	            'total_pages' => (($listCount % $tmpList == 0) ? $listCount / $tmpList : ((int)($listCount / $tmpList) + 1)),
+	            'limit' => $limit,
+	            'col' => $col,
+	            'dir' => $dir];
 
 	header('Content-type: application/json');
 	echo json_encode($response);

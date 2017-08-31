@@ -9,17 +9,38 @@
 				restrict : 'E',
 				template : '<div class="table-listing" style="width:{{wd}};">'+
 						   		'<div class="list" style="position:relative;">'+
+						   			'<div class="selectAll">'+
+						   				'<span class="seach">'+
+						   					'<label>' +
+							   					'<input ng-if="self.showCheckbox" type="checkbox" ng-model="selectAll" ng-click="checkAll()" />' +
+							   					'Select All'+
+						   					'</label>'+
+						   				'</span>'+
+						   			'</div>'+
+						   			'<div class="search">'+
+						   				'<span class="seach">'+
+						   					'<input type="text" placeholder="Search..." ng-model="self.searchText"/>' +
+						   					'<span ng-click="self.openSearchBox()" class="fa fa-search"></span>'+
+						   				'</span>'+
+						   			'</div>'+
 						   			'<table class="rup-list table table-condensed table-listing">'+
 							   			'<thead>'+
 								   			'<tr>'+
 								   				'<th ng-if="self.showRowNumber" width="50">S No.</th>'+
+								   				'<th ng-if="!self.showRowNumber" width="50">&nbsp;</th>'+
 								   				'<th ng-repeat="(key, value) in config.columns" class="first sort {{self.dt.col == key ? (self.dt.dir == \'ASC\' ? \'asc\' : \'desc\') : \'\'}}" ng-click="self.sortChanged(key)">{{value}}</th>'+
 								   				'<th ng-if="self.isEditButton || self.isCopyButton || self.isDeleteButton" width="80">&nbsp;</th>'+
 								   			'</tr>'+
 							   			'</thead>'+
-							   			'<tbody>'+
+							   			'<tbody><!-- | filter:self.searchText-->'+
 								   			'<tr ng-if="self.dt.List.length > 0" ng-repeat="obj in self.dt.List" ng-init="startIndex=$index">'+
-								   				'<td ng-if="self.showRowNumber">{{$index+1}}</td>'+
+								   				'<td ng-if="self.showRowNumber">'+
+								   					'<input ng-if="self.showCheckbox" type="checkbox" ng-click="usersetting(obj)" ng-model="obj.select" />'+
+								   					'{{$index+1}}'+
+								   				'</td>'+
+								   				'<td ng-if="!self.showRowNumber">'+
+								   					'<input ng-if="self.showCheckbox && !self.showRowNumber" type="checkbox" ng-click="usersetting(obj)" ng-model="obj.select" />'+
+								   				'</td>'+
 								   				'<td ng-repeat="(key, value) in config.columns">'+
 								   					'<span ng-if="!config.colformat[key]">{{obj[key].length > 30 ? (obj[key]|limitTo : 27) + \'...\' : obj[key]}}</span>'+
 								   					'<span ng-if="config.colformat[key].type == \'select\'">'+
@@ -43,9 +64,9 @@
 								   					'<a ng-if="self.isDeleteButton" class="act" ng-click="self.actionButton(\'d\', $index, obj)" href="javascript:;"><span class="fa fa-trash"></span></a>'+
 								   				'</td>'+
 								   			'</tr>'+
-											// '<tr ng-if="self.tmp != \'\' && self.dt.List.length == 0">'+
+											//  '<tr ng-if="self.tmp != \'\' && self.dt.List.length == 0">'+
 											// 	'<td colspan="{{self.colsLen}}">{{self.tmp}}</td>'+
-								   // 			'</tr>'+
+								   			// 	'</tr>'+
 											'<tr ng-if="self.tmp == \'\' && self.dt.List.length == 0">'+
 												'<td colspan="{{self.colsLen}}">No data found.</td>'+
 								   			'</tr>'+
@@ -110,6 +131,9 @@
 				controller : function($scope, $http, $q, $attrs, $window){
 					var self = this;
 
+					self.searchText = '';
+
+					self.showCheckbox = $attrs.showCheckbox ? ($attrs.showCheckbox == 'true' ? true : false) : false;
 					self.showRowNumber = $attrs.showRowNumber ? ($attrs.showRowNumber == 'true' ? true : false) : false;
 					self.showPagging = $attrs.showPagging ? ($attrs.showPagging == 'true' ? true : false) : false;
 					self.minLimit = $attrs.minLimit ? $attrs.minLimit : 10;
@@ -133,6 +157,22 @@
 						dir : ''
 					};
 
+					$scope.selectAll = false;
+
+					// Select All Checkbox
+					$scope.checkAll = function(){
+						$scope.selectAll = !$scope.selectAll;
+						angular.forEach(self.dt.List, function(obj){
+							console.log(obj);
+							obj.select = $scope.selectAll;
+						});
+					};
+
+					self.openSearchBox = function(){
+						// Rebind Data
+						self.bindData(true);
+					};
+
 					self.dt.limit = self.minLimit;
 
 					// Bind Data From Server
@@ -141,6 +181,7 @@
 							method : $scope.config.reqType,
 							url : $scope.config.reqUrl,
 							params : {
+								searchText : self.searchText,
 								page : self.dt.page,
 								limit : self.dt.limit,
 								col : self.dt.col,
