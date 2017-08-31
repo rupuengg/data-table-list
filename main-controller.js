@@ -101,7 +101,7 @@
 				console.log(error);
 			});
 
-			self.isAddNew = true;
+			self.isAddNew = false;
 			self.AddNew = function(){
 				self.isAddNew = true;
 				console.log('Add New');

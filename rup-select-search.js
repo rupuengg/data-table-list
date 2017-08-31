@@ -8,50 +8,50 @@
                 restrict: 'E',
                 require: 'ngModel', //['ngModel', '^?form'],
                 template: '<div class="rup-select-search" style="width:{{wd}};">' +
-                        '<div class="lft">' +
-                        '<div class="inner box">' +
-                        '<p ng-show="mlist.length > 0">' +
-                        '<a ng-click="self.moveAllRight()" href="javascript:;">Select All</a>' +
-                        '</p>' +
-                        '<p ng-show="mlist.length > 0" class="search">' +
-                        '<input type="text" placeholder="Search..." ng-model="searchText"/>' +
-                        '</p>' +
-                        '<ul>' +
-                        '<li ng-repeat="obj in mlist | filter:searchText">' +
-                        '<a ng-click="self.moveRight($index)" href="javascript:;">{{obj[valueFormat]}}</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '<p ng-show="mlist.length == 0" class="no-item">' +
-                        'No items' +
-                        '</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="cntr">' +
-                        '<div class="inner">' +
-                        '<span class="fa fa-arrow-right fa-3x"></span>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="rht">' +
-                        '<div class="inner box">' +
-                        '<p ng-show="rlist.length > 0">' +
-                        '<a ng-click="self.removeAllRight()" href="javascript:;">Remove All</a>' +
-                        '</p>' +
-                        '<ul ng-show="rlist.length > 0">' +
-                        '<li ng-repeat="obj in rlist">' +
-                        '<a ng-click="self.removeRight($index)" href="javascript:;">' +
-                        '{{self.fetchObj(mlist, keyFormat, obj)[valueFormat]}}' +
-                        '<span class="fa fa-close"></span>' +
-                        '</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '<p ng-show="rlist.length == 0" class="no-item">' +
-                        'No items' +
-                        '</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in mlist" ng-model="rlist" multiple style="width:500px;display:block;"></select>' +
-                        '<div class="clear"></div>' +
-                    '</div>',
+                            '<div class="lft">' +
+                                '<div class="inner box">' +
+                                    '<p ng-show="mlist.length > 0">' +
+                                        '<a ng-click="self.moveAllRight()" href="javascript:;">Select All</a>' +
+                                    '</p>' +
+                                    '<p ng-show="mlist.length > 0" class="search">' +
+                                        '<input type="text" placeholder="Search..." ng-model="searchText"/>' +
+                                    '</p>' +
+                                    '<ul>' +
+                                        '<li ng-repeat="obj in mlist | filter:searchText">' +
+                                            '<a ng-click="self.moveRight($index)" href="javascript:;">{{obj[valueFormat]}}</a>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                    '<p ng-show="mlist.length == 0" class="no-item">' +
+                                        'No items' +
+                                    '</p>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="cntr">' +
+                                '<div class="inner">' +
+                                    '<span class="fa fa-arrow-right fa-3x"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="rht">' +
+                                '<div class="inner box">' +
+                                    '<p ng-show="rlist.length > 0">' +
+                                        '<a ng-click="self.removeAllRight()" href="javascript:;">Remove All</a>' +
+                                    '</p>' +
+                                    '<ul ng-show="rlist.length > 0">' +
+                                        '<li ng-repeat="obj in rlist">' +
+                                            '<a ng-click="self.removeRight($index)" href="javascript:;">' +
+                                                '{{self.fetchObj(mlist, keyFormat, obj)[valueFormat]}}' +
+                                                '<span class="fa fa-close"></span>' +
+                                            '</a>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                    '<p ng-show="rlist.length == 0" class="no-item">' +
+                                        'No items' +
+                                    '</p>' +
+                                '</div>' +
+                            '</div>' +
+                            // '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in values" ng-model="rlist" multiple style="width:500px;display:block;"></select>' +
+                            '<div class="clear"></div>' +
+                        '</div>',
                 scope: {
                     fname : '@name',
                     mlist : '=mlist',
@@ -60,49 +60,30 @@
                     validator : '&'
                 },
                 link: function(scope, element, attrs, ctrl){
-
-                    // console.log('Select', scope.validator);
-                    // scope.ctrl = obj[0];
-                    // scope.from = obj[0];
-                    // console.log('ngModelController', scope.ctrl);
-                    // console.log('From', scope.from);
-
                     scope.keyFormat = attrs.kFormat;
                     scope.valueFormat = attrs.vFormat;
                     scope.isReverse = attrs.isReverse ? (attrs.isReverse == 'true' ? true : false) : false;
-
-                    element.find('select').attr(scope.valiType, '');
-                    // element.find('option').remove();
-                    $compile(element.contents().find('select'))(scope);
-
-                    // if(scope.validator){
-                    //     function validate(value){
-                    //         if(ctrl.$pristine && scope.validator(value)){
-                    //             return false;
-                    //         }
-                    //         return !scope.validator(value);
-                    //     }
-                        // ctrl.$validators.blank = function(modelValue, viewValue){
-                        //     if(ctrl.$pristine && scope.validator(viewValue)){
-                        //         return false;
-                        //     }
-                        //     return !scope.validator(viewValue);
-                        // };
-                    // }
-
-                    // ctrl.$parsers.unshift(validate);
-                    // ctrl.$formatters.unshift(validate);
-                    // // ctrl.$validators.unshift(validate);
                 },
-                // pre : function(scope, element){
-                //     element.find('select').attr(scope.valiType, '');
-                // },
-                // post: function(scope, element) {
-                //     // element.find('select').attr(scope.valiType, '');
-                //     $compile(element.contents().find('select'))(scope);
-                // },
+                compile : function(element, attrs, transclude){
+                    return {
+                        pre : function(scope, element){
+                            element.find('select').attr(scope.valiType, '');
+                            scope.values = scope.mlist;
+                        },
+                        post: function(scope, element) {
+                            var html = '<select name="{{fname}}" ng-options="obj[keyFormat] as obj[valueFormat] for obj in values" ng-model="rlist" multiple style="width:500px;display:none;" '+scope.valiType+'></select>';
+                            element.find('.rht').after(html);
+                            // element.find('select').attr(scope.valiType, '');
+                            $compile(element.contents())(scope);
+                        }
+                    };
+                },
                 controller: function($scope, $filter, $attrs, $element){
                     $scope.wd = parseInt($attrs.width) ? $attrs.width + 'px' : $attrs.width;
+
+                    $scope.keyFormat = $attrs.kFormat;
+                    $scope.valueFormat = $attrs.vFormat;
+                    $scope.isReverse = $attrs.isReverse ? (attrs.isReverse == 'true' ? true : false) : false;
 
                     $scope.searchText = '';
 
